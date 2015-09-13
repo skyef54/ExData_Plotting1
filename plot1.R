@@ -16,8 +16,7 @@ pipe_params <- paste0("findstr \"", validDates_pattern, "\" \"", source_file, "\
 
 # load data into dataframe, PIPE method. Use date filtered input for read function. Extremely saves time and memory.
 df <- read.table(pipe(pipe_params), sep = ";", stringsAsFactors = F, na.strings = "?") 
-names(df) <- c("Date", "Time", "Global_active_power", "Global_reactive_power", "Voltage", 
-               "Global_intensity", "Sub_metering_1", "Sub_metering_2", "Sub_metering_3")
+names(df) <- scan(source_file, sep = ";", nlines = 1, what = "character", quiet = TRUE)
 
 # add column with POSIXlt format by joining data form two columns
 df$DateTime <- strptime(paste0(df$Date, " ", df$Time), "%d/%m/%Y %H:%M:%S")
